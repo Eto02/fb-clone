@@ -5,14 +5,24 @@ import VideocamIcon from '@material-ui/icons/Videocam';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import { useSelector } from 'react-redux';
+import db from './firebase'
+import firebase from 'firebase'
 
-function MessageSender() {
+ function MessageSender()  {
     const user = useSelector(state => state.user)
     const [input, setInput] = useState('')
     const [imgUrl, setImgUrl] = useState('')
     const handleSubmit=(e)=>{
         e.preventDefault()
         
+       const exe=  db.collection("posts").add({
+            message:input,
+            timestamp:firebase.firestore.FieldValue.serverTimestamp(),
+            profilePic:user.photoURL,
+            username:user.displayName,
+            image:imgUrl
+        })
+        console.log(exe)
 
         setInput("")
         setImgUrl("")
